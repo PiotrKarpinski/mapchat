@@ -34,9 +34,7 @@ class SignUp extends Component {
             (response) => { this.setState({errors: response.data.errors}) })
     };
 
-    redirect = () => {
-        this.props.history.push('/')
-    }
+
 
     handleErrors = () => {
         return (

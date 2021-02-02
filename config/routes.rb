@@ -4,8 +4,16 @@ Rails.application.routes.draw do
   post '/logout',   to: 'sessions#destroy'
   get '/logged_in', to: 'sessions#is_logged_in?'
 
-  resources :users, only: [:create, :show, :index]
   # post '/users',         to: 'users#create' above can also look like this
   # get '/users/:user_id', to: 'users#show'
   # get '/users',          to: 'users#index'
+  #
+  resources :users, only: [:create, :show, :index]
+  resources :tasks, only: [:create, :show, :update, :index]
+  resources :projects, only: [:create, :show, :update, :index]
+  resources :priorities, only: [:create, :show, :update, :index]
+  resources :statuses, only: [:create, :show, :update, :index]
+  resources :messages, only: [:create, :show, :update, :index]
+
+
 end

@@ -1,0 +1,25 @@
+
+
+.centered-box {
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+
+}
+
+.bottom-0 {
+  bottom: 0;
+}
+
+.right {
+  right: 0;
+  text-align: right;
+  color: darkolivegreen;
+}
+
+.left {
+  left: 0;
+  text-align: left;
+  color: chocolate;
+}

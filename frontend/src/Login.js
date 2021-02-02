@@ -15,12 +15,7 @@ class Login extends Component {
         };
     }
 
-    handleChange = (event) => {
-        const {name, value} = event.target
-        this.setState({
-            [name]: value
-        })
-    };
+
 
     redirect = () => {
         this.props.history.push('/')
@@ -53,10 +48,7 @@ class Login extends Component {
             password: password,
         }
 
-        login(user,
-            (response) => { this.redirect() },
-            (response) => { this.setState({errors: response.data.errors})}
-        )
+
     };
 
     render() {

@@ -1,0 +1,21 @@
+div[target='_collapseV'] {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  background-color: silver;
+
+  max-height: 0;
+  transition: max-height 400ms ease-out;
+}
+
+div[target='_collapseH'] {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  background-color: whitesmoke;
+  opacity: 0;
+
+  max-width: 0;
+  transition:  opacity 800ms ease-in-out, width 700ms ease-in-out;
+
+}

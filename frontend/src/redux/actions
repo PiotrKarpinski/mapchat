@@ -1,0 +1,12 @@
+import { SELECT_TASK, SET_FILTER } from "./actionTypes";
+
+
+export const selectTask = tasks => ({
+    type: SELECT_TASK,
+    payload: {
+        tasks
+    }
+});
+
+
+export const setFilter = filter => ({ type: SET_FILTER, payload: { filter } });

@@ -1,63 +1,67 @@
-import './App.css';
-import React, {Component} from "react";
+import React, {useState, useEffect} from 'react';
+import './App.scss';
+import LoginPage from "./components/LoginPage";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import Dashboard from "./components/Dashboard";
+import Footer from "./components/Footer";
+import Project from "./components/Project";
+import Task from "./components/Task";
+import Tool from "./components/Tool";
+import Assembly from "./components/Assembly";
+import Storage from "./components/Storage";
+import CustomHorizontalNav from "./components/CustomHorizontalNav";
+import CustomVerticalNav from "./components/CustomVerticalNav";
+import {connect} from "react-redux";
 import axios from "axios";
-import {BrowserRouter, Route, Switch} from "react-router-dom";
-import Home from "./Home";
-import Login from "./Login";
-import SignUp from "./SingUp";
+import AppWrapper from "./AppWrapper";
 
-class App extends Component {
-constructor(props) {
-    super(props);
-    this.state = {
-        isLoggedIn: false,
-        user: {}
+
+function App() {
+
+    const [width, setWidth] = useState(90)
+
+    const setWidthHandler = (value) => {
+        if (value === 1) {
+            setWidth(80)
+        } else if (value === 2) {
+            setWidth(70)
+        } else {
+            setWidth(90)
+        }
     }
+
+    return (
+        <div className="App">
+            <Router>
+                    <Switch>
+                        <AppWrapper setWidthHandler={setWidthHandler}>
+                        <Route exact path="/login">
+                            <LoginPage/>
+                        </Route>
+                        <Route path="">
+                            <Dashboard width={width}/>
+                        </Route>
+                        <Route path="/projects/:id">
+                            <Project/>
+                        </Route>
+                        <Route path="/tasks/:id">
+                            <Task/>
+                        </Route>
+                        <Route path="/tools/:id">
+                            <Tool/>
+                        </Route>
+                        <Route path="/assembly">
+                            <Assembly/>
+                        </Route>
+                        <Route path="/storage">
+                            <Storage/>
+                        </Route>
+                        </AppWrapper>
+                    </Switch>
+            </Router>
+            <Footer/>
+        </div>
+    );
 }
 
-    componentDidMount() {
-        this.loginStatus()
-    }
-
-    loginStatus = () => {
-        axios.get('http://localhost:3001/logged_in',
-            {withCredentials: true})
-            .then(response => {
-                if (response.data.logged_in) {
-                    this.handleLogin(response)
-                } else {
-                    this.handleLogout()
-                }
-            })
-            .catch(error => console.log('api errors:', error))
-    };
-
-    handleLogin = (data) => {
-        this.setState({
-            isLoggedIn: true,
-            user: data.user
-        })
-    }
-    handleLogout = () => {
-        this.setState({
-            isLoggedIn: false,
-            user: {}
-        })
-    }
-
-    render() {
-        return (
-            <div className="App">
-                    <BrowserRouter>
-                        <Switch>
-                            <Route exact path='/' component={Home}/>
-                            <Route exact path='/login' component={Login}/>
-                            <Route exact path='/signup' component={SignUp}/>
-                        </Switch>
-                    </BrowserRouter>
-            </div>
-        );
-    }
-}
-
-export default App;
+export default connect()(App);

@@ -1,0 +1,88 @@
+.login-box {
+  top: 30%;
+}
+
+.vertical-nav{
+  height: 100vh;
+  background-color: darkgrey;
+  .btn {
+    text-align: left;
+    width: 100%;
+    padding: 12px 14px 12px 12px;
+    border: none;
+    border-radius: 0;
+    background-color: inherit;
+  }
+  .nav-link {
+    text-align: left;
+    width: 100%;
+    padding: 12px 14px 12px 12px;
+    border: none;
+    border-radius: 0;
+    background-color: inherit;
+    cursor: pointer;
+    transition: background-color .15s ease-in-out;
+  }
+  .nav-link:hover {
+    background-color: #596066;
+  }
+}
+
+.messages-box {
+  height: 80vh;
+  width: 100%;
+}
+
+.task-container {
+  height: 100vh;
+  display: inline-block;
+  width: 20%!important;
+  float: right;
+  background-color: bisque;
+
+}
+
+.task-form {
+
+}
+
+.task-editing {
+  font-size: 24px!important;
+}
+
+.task-present {
+  border: none!important;
+  letter-spacing: 2px;
+  font-size: 24px!important;
+  transition: background 500ms!important;
+  background-color: whitesmoke!important;
+}
+
+.task-present:hover {
+  background-color: cadetblue!important;
+  color: white;
+}
+
+.task-label {
+  color: cadetblue!important;
+  font-size: 26px!important;
+  display: flex!important;
+}
+.task-card {
+  -webkit-box-shadow: -2px 18px 66px -10px rgba(0,0,0,0.1);
+  -moz-box-shadow: -2px 18px 66px -10px rgba(0,0,0,0.1);
+  box-shadow: -2px 18px 66px -10px rgba(0,0,0,0.1);
+}
+
+.task-card:hover {
+  -webkit-box-shadow: -2px 18px 66px -10px rgba(0,0,0,0.3);
+  -moz-box-shadow: -2px 18px 66px -10px rgba(0,0,0,0.3);
+  box-shadow: -2px 18px 66px -10px rgba(0,0,0,0.3);
+}
+
+.alert-nav {
+  z-index: 999;
+  position: absolute;
+  right: 0;
+  top: 0;
+}

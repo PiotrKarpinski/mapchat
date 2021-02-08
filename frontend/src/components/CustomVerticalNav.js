@@ -8,7 +8,7 @@ import {
     faAddressBook, faArrowAltCircleLeft, faArrowAltCircleRight, faArrowLeft, faArrowRight,
     faAward,
     faBuilding,
-    faCalendarAlt,
+    faCalendarAlt, faCircle,
     faPaintRoller, faPen, faPenFancy,
     faTrash
 } from "@fortawesome/free-solid-svg-icons";
@@ -90,6 +90,11 @@ const CustomVerticalNav = (props) => {
                         </NavItem>
                         <NavItem>
                             <Button onClick={() => toggleDropdown('USERS')}>Chat</Button>
+                            {tab === "USERS" && props.users.map(user =>
+                                        <NavItem>
+                                            <Button key={user.id} onClick={() => props.setActive(user.id)}><FontAwesomeIcon icon={faCircle}/> {user.username}</Button>
+                                        </NavItem>
+                            )}
                         </NavItem>
                         <NavItem>
                             <Button onClick={() => toggleModal('TASK')}>New task</Button>

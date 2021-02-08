@@ -27,7 +27,6 @@ export const fetchAllData = (resourceName, callback) => {
 }
 
 
-
 export const postData = (data, resourceName, callback) => {
     axios.post(`http://localhost:3001/${resourceName}`, {data},
         {withCredentials: true})

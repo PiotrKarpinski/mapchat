@@ -18,9 +18,15 @@ const CustomHorizontalNav = (props) => {
     const toggle = () => {
         setOpen(!isOpen)
     };
-    const [isDropdownOpen, setDropdownOpen] = useState(false);
-    const toggleDropdown = () => {
-        setDropdownOpen(!isDropdownOpen)
+    const [isWorkEnvironmentDropdownOpen, setWorkEnvironmentDropdownOpen] = useState(false);
+    const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
+
+    const toggleWorkEnvironmentDropdown = () => {
+        setWorkEnvironmentDropdownOpen(!isWorkEnvironmentDropdownOpen)
+    };
+
+    const toggleProfileDropdown = () => {
+        setProfileDropdownOpen(!isProfileDropdownOpen)
     };
 
 
@@ -33,7 +39,7 @@ const CustomHorizontalNav = (props) => {
             <Col md={2}>
                 {
                     !props.location.pathname.includes('login') &&
-                    <ButtonDropdown className="d-table" isOpen={isDropdownOpen} toggle={toggleDropdown}>
+                    <ButtonDropdown className="d-table" isOpen={isWorkEnvironmentDropdownOpen} toggle={toggleWorkEnvironmentDropdown}>
                         <DropdownToggle color="info" caret>
                             Work environment
                         </DropdownToggle>
@@ -47,7 +53,7 @@ const CustomHorizontalNav = (props) => {
             <Col md={9}>
                 {
                     !props.location.pathname.includes('login') &&
-                    <ButtonDropdown className="d-table ml-auto mr-0" isOpen={isDropdownOpen} toggle={toggleDropdown}>
+                    <ButtonDropdown className="d-table ml-auto mr-0" isOpen={isProfileDropdownOpen} toggle={toggleProfileDropdown}>
                     <DropdownToggle color="info" caret>
                         Profile
                     </DropdownToggle>
@@ -55,9 +61,7 @@ const CustomHorizontalNav = (props) => {
                         <DropdownItem disabled>Statistics</DropdownItem>
                         <DropdownItem>My profile</DropdownItem>
                         <DropdownItem divider />
-                        <DropdownItem><Button className="text-black" onClick={() => {
-                            logout
-                        }}>Log out</Button></DropdownItem>
+                        <DropdownItem><Button className="text-black" onClick={() => props.onLogout()}>Log out</Button></DropdownItem>
                     </DropdownMenu>
                 </ButtonDropdown>}
                 {

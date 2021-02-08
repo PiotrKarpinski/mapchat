@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
 import Project from "./components/Project";
 import Task from "./components/Task";
 import Tool from "./components/Tool";
-import Assembly from "./components/Assembly";
+import Assembly from "./components/MessageBox";
 import Storage from "./components/Storage";
 import CustomHorizontalNav from "./components/CustomHorizontalNav";
 import CustomVerticalNav from "./components/CustomVerticalNav";
@@ -49,9 +49,6 @@ function App() {
                         </Route>
                         <Route path="/tools/:id">
                             <Tool/>
-                        </Route>
-                        <Route path="/assembly">
-                            <Assembly/>
                         </Route>
                         <Route path="/storage">
                             <Storage/>

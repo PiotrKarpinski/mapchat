@@ -31,10 +31,18 @@ class SessionsController < ApplicationController
   end
   def destroy
     logout!
+    if logged_in? == false
     render json: {
       status: 200,
       logged_out: true
     }
+    else
+      render json: {
+        status: 500,
+        message: 'could not log you out',
+        logged_out: false
+      }
+    end
   end
   private
   def session_params

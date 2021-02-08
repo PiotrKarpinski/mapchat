@@ -39,11 +39,11 @@ const Dashboard = (props) => {
         console.log('test')
         setWidth(props.width)
         reload()
-    }, [props]);
+    }, []);
 
     const getPrefix = (id) => {
         console.log(projects)
-        return projects.find(p => p.ID === id).PREFIX
+        return projects.find(p => p.id === id).PREFIX
     }
 
 
@@ -105,34 +105,33 @@ const Dashboard = (props) => {
             }}>
                 {tasks.map((t, index) =>
 
-                    <Card key={index} outline={task && t.ID === task.ID} color={task && t.ID === task.ID && "success"}
+                    <Card key={index} outline={task && t.id === task.id} color={task && t.id === task.id && "success"}
                           onClick={() => setTask(t)} className="task-card my-4"
                           style={{width: '16rem', flex: 'none', textAlign: 'left'}}>
                         <CardBody>
-                            <CardTitle>{getPrefix(t.ID_PROJECT) + '-' + t.NAME}</CardTitle>
+                            <CardTitle>{getPrefix(t.project_id) + '-' + t.name}</CardTitle>
                             <Row>
-                                <Col md={2}><FontAwesomeIcon color={getColor(parseInt(t.ID_PRIORITY))} icon={faCircle}/></Col>
+                                <Col md={2}><FontAwesomeIcon color={getColor(parseInt(t.priority_id))} icon={faCircle}/></Col>
                                 <Col md={2}><FontAwesomeIcon color={'black'}
-                                                             icon={getStatus(parseInt(t.ID_STATUS))}/></Col>
+                                                             icon={getStatus(parseInt(t.status_id))}/></Col>
                             </Row>
                             <CardText>
 
-                                <p className="cut-text">{t.DESCRIPTION}</p>
+                                <p className="cut-text">{t.description}</p>
 
                             </CardText>
 
                         </CardBody>
-
 
                     </Card>
                 )}
                 {/*{tasks.map((t, index) =>*/}
                 {/*        <Card key={index} style={{width: '18rem'}}>*/}
                 {/*            <Card.Body>*/}
-                {/*                <Card.Title>{getPrefix(t.ID_PROJECT) + '-' + t.NAME}</Card.Title>*/}
+                {/*                <Card.Title>{getPrefix(t.id_PROJECT) + '-' + t.NAME}</Card.Title>*/}
                 {/*                <Row>*/}
-                {/*                    <Col><FontAwesomeIcon color={getColor(t.ID_PRIORITY)} icon={faCircle}/></Col>*/}
-                {/*                    <Col><FontAwesomeIcon color={'black'} icon={getStatus(t.ID_STATUS)}/></Col>*/}
+                {/*                    <Col><FontAwesomeIcon color={getColor(t.id_PRIORITY)} icon={faCircle}/></Col>*/}
+                {/*                    <Col><FontAwesomeIcon color={'black'} icon={getStatus(t.id_STATUS)}/></Col>*/}
                 {/*                </Row>*/}
                 {/*                <Card.Text>*/}
                 {/*                    {t.DESCRIPTION}*/}

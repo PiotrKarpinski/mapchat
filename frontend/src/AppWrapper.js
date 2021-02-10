@@ -95,10 +95,23 @@ const AppWrapper = (props) => {
             })
             .catch(error => console.log('api errors:', error))
     };
+
+
+    const setWidthHandler = (value) => {
+        if (value === 1) {
+            setWidth(80)
+        } else if (value === 2) {
+            setWidth(70)
+        } else {
+            setWidth(90)
+        }
+    }
+
     const [isLoggedIn, setLoginStatus] = useState(false)
     const [alert, setAlert] = useState(null)
     const [users, setUsers] = useState([])
     const [activeUsers, setActive] = useState([])
+    const [width, setWidth] = useState(90)
 
 
     return (
@@ -112,8 +125,8 @@ const AppWrapper = (props) => {
             <CustomHorizontalNav onLogout={handleLogout}/>
             {isLoggedIn ?
                 <div>
-                    <CustomVerticalNav users={users} setActive={(id) => handleActiveUser(id)} setWidth={props.setWidthHandler}/>
-                    <Dashboard loggedIn={isLoggedIn}/>}
+                    <CustomVerticalNav users={users} setActive={(id) => handleActiveUser(id)} setWidth={setWidthHandler}/>
+                    <Dashboard width={width} loggedIn={isLoggedIn}/>}
                     {activeUsers.map(user =>
                         <MessageBox box={user}/>)
                     }

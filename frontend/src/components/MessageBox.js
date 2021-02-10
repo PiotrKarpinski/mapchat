@@ -19,9 +19,15 @@ import Nav from "reactstrap/es/Nav";
 import Input from "reactstrap/es/Input";
 import FormText from "reactstrap/es/FormText";
 import {faFacebookMessenger} from "@fortawesome/free-brands-svg-icons";
-import {postData} from "./actions";
+import {fetchAllData, postData} from "./actions";
 
 const MessageBox = (props) => {
+
+    useEffect(() => {
+        fetchAllData('messages', (data) => {
+            addMsg(data)
+        })
+    },[props]);
 
     const handleSendMsg = (text) => {
     const msg = {
@@ -48,35 +54,27 @@ const MessageBox = (props) => {
     const [msgs, addMsg] = useState([])
     const [text, setText] = useState(null)
 
-    useEffect(() => {
-
-    },[msgs,active]);
-
     return (
         <Container>
            <Row>
-               <Col md={3}>
-                   dupa
-               </Col>
-
-               <Col md={7}>
-                   {/*<Container className="messages-box position-relative">*/}
-                   {/*    {msgs.filter(m => (m.poster_id === active && m.getter_id === loggedUserId) || (m.poster_id === loggedUserId && m.getter_id === active)).map(m =>*/}
-                   {/*    <Row className="mt-4 text-white"  key={m.id}>*/}
-                   {/*        <Col className={m.poster_id === loggedUserId ? 'right' : 'left'}>*/}
-                   {/*            {m.content}*/}
-                   {/*        </Col>*/}
-                   {/*    </Row>*/}
-                   {/*    )}*/}
-                   {/*    <Row className="position-absolute w-100 bottom-0">*/}
-                   {/*        <Col md={10}>*/}
-                   {/*            <Input onKeyDown={(e)=>handleKeyDown(e)} onChange={(e)=>setText(e.target.value)} placeholder="write something..."/>*/}
-                   {/*        </Col>*/}
-                   {/*        <Col md={2}>*/}
-                   {/*            <Button onClick={() => handleSendMsg(text)}><FontAwesomeIcon icon={faFacebookMessenger}/></Button>*/}
-                   {/*        </Col>*/}
-                   {/*    </Row>*/}
-                   {/*</Container>*/}
+               <Col md={12}>
+                   <Container className="messages-box position-relative">
+                       {msgs.length > 0 && msgs.filter.map(m =>
+                       <Row className="mt-4 text-white"  key={m.id}>
+                           <Col className={m.poster_id === 1 ? 'right' : 'left'}>
+                               {m.content}
+                           </Col>
+                       </Row>
+                       )}
+                       <Row className="position-absolute w-100 bottom-0">
+                           <Col md={10}>
+                               <Input onKeyDown={(e)=>handleKeyDown(e)} onChange={(e)=>setText(e.target.value)} placeholder="write something..."/>
+                           </Col>
+                           <Col md={2}>
+                               <Button onClick={() => handleSendMsg(text)}><FontAwesomeIcon icon={faFacebookMessenger}/></Button>
+                           </Col>
+                       </Row>
+                   </Container>
                </Col>
            </Row>
 

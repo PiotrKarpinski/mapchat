@@ -18,28 +18,16 @@ import AppWrapper from "./AppWrapper";
 
 function App() {
 
-    const [width, setWidth] = useState(90)
-
-    const setWidthHandler = (value) => {
-        if (value === 1) {
-            setWidth(80)
-        } else if (value === 2) {
-            setWidth(70)
-        } else {
-            setWidth(90)
-        }
-    }
-
     return (
         <div className="App">
             <Router>
                     <Switch>
-                        <AppWrapper setWidthHandler={setWidthHandler}>
+                        <AppWrapper>
                         <Route exact path="/login">
                             <LoginPage/>
                         </Route>
                         <Route path="">
-                            <Dashboard width={width}/>
+                            <Dashboard/>
                         </Route>
                         <Route path="/projects/:id">
                             <Project/>

@@ -39,7 +39,7 @@ const Dashboard = (props) => {
         console.log('test')
         setWidth(props.width)
         reload()
-    }, []);
+    }, [props.width]);
 
     const getPrefix = (id) => {
         console.log(projects)

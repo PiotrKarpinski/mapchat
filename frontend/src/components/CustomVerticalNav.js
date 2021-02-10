@@ -51,7 +51,7 @@ const CustomVerticalNav = (props) => {
     const [isOpen, setOpen] = useState(false);
     const toggle = () => {
         setOpen(!isOpen)
-        props.setWidth(isOpen ? 0 : 1)
+        props.setWidth(!isOpen ? 1 : 0)
     };
 
     let url = props.match.url

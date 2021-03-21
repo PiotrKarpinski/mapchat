@@ -9,39 +9,40 @@ import ModalHeader from "reactstrap/es/ModalHeader";
 import ModalFooter from "reactstrap/es/ModalFooter";
 
 import {connect} from "react-redux";
+import {deleteData} from "./actions";
 
-const DeleteModal = (props) => {
-
-
-
+const ConfirmModal = (props) => {
 
     useEffect(() => {
 
     }, []);
 
+    const onAction = () => {
+        deleteData(props.resource.id, 'tasks' ,() => {
+            props.reload()
+        })
+    }
 
     const {toggle, isOpen} = props
 
     const type = 'task'
-    const names = 'th-dupsko, th-chujnia, wt-piwsko'
 
     return (
         <Modal keyboard={true} backdrop={true} toggle={toggle} isOpen={isOpen}>
             <ModalHeader>
-                <h1>Delete {type}: {names}</h1>
+                <h1>Confirm {props.action.toUpperCase()}</h1>
             </ModalHeader>
             <ModalBody>
-            Are you sure that you want to delete the following {type}?
-                {names}
+            Are you sure that you want to {props.action.toLowerCase()} the following {props.type}?
             </ModalBody>
             <ModalFooter className="mx-auto">
                 <Row>
                     <Col>
                         <Button
                             onClick={() => {
-                            props.onDelete(props.resource)
-                        }} color="danger">
-                            Delete
+                            onAction()
+                        }} color="success">
+                            Yes
                         </Button>
                     </Col>
                     <Col>
@@ -58,4 +59,4 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps)(DeleteModal);
+export default connect(mapStateToProps)(ConfirmModal);

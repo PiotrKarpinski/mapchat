@@ -26,6 +26,21 @@ export const fetchAllData = (resourceName, callback) => {
         .catch(error => console.log('api errors:', error))
 }
 
+export const fetchAllDataByProjectId = (resourceName, project_id, callback) => {
+    axios.get(`http://localhost:3001/${resourceName}`,
+        {withCredentials: true, params: {
+            project_id
+            }})
+        .then(response => {
+            if (response.data) {
+                callback(response.data)
+            } else {
+                callback({})
+            }
+        })
+        .catch(error => console.log('api errors:', error))
+}
+
 
 export const postData = (data, resourceName, callback) => {
     axios.post(`http://localhost:3001/${resourceName}`, {data},

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {fetchAllData} from "./actions";
+import {deleteData, fetchAllData, fetchAllDataByProjectId, postData} from "./actions";
 import Card from "reactstrap/es/Card";
 import Col from "reactstrap/es/Col";
 import {faCalculator, faCalendar, faCircle, faDotCircle, faEnvelope} from "@fortawesome/free-solid-svg-icons";
@@ -10,42 +10,27 @@ import CardTitle from "reactstrap/es/CardTitle";
 import CardText from "reactstrap/es/CardText";
 import CardDeck from "reactstrap/es/CardDeck";
 import Task from "./Task";
+import DeleteModal from "./ConfirmModal";
+import NewTaskModal from "./NewTaskModal";
+import NewProjectModal from "./NewProjectModal";
+import ConfirmModal from "./ConfirmModal";
 
 
 const Dashboard = (props) => {
 
     const reload = () => {
-        if (props.loggedIn) {
-            console.log('test')
-            //WE NEED TO MAKE ONE FETCH FUNCTION TO LOAD ARRAY OF STRINGS
-            //WE CANT NEST CALLBACKS
-            fetchAllData('tasks', (result) => {
+            toggleModal(null)
+        fetchAllDataByProjectId('tasks', props.project_id, (result) => {
                 setTasks(result)
-                fetchAllData('projects', (result) => {
-                    console.log(projects, isLoading)
-                    setProjects(result)
-                    setLoading(!result)
-
-                })
+                setLoading(!result)
             })
-        } else {
-            debugger
         }
-
-    }
-
 
     useEffect(() => {
         console.log('test')
         setWidth(props.width)
         reload()
-    }, [props.width]);
-
-    const getPrefix = (id) => {
-        console.log(projects)
-        return projects.find(p => p.id === id).PREFIX
-    }
-
+    }, [props.width, props.project_id]);
 
     const getColor = (id) => {
         let color = ''
@@ -88,7 +73,11 @@ const Dashboard = (props) => {
         return status
     }
 
+    const toggleModal = (modal) => {
+        setModalOpen(modal ? modal : null)
+    };
 
+    const [modal, setModalOpen] = useState(null);
     const [tasks, setTasks] = useState([])
     const [isLoading, setLoading] = useState(true)
     const [projects, setProjects] = useState([])
@@ -109,7 +98,7 @@ const Dashboard = (props) => {
                           onClick={() => setTask(t)} className="task-card my-4"
                           style={{width: '16rem', flex: 'none', textAlign: 'left'}}>
                         <CardBody>
-                            <CardTitle>{getPrefix(t.project_id) + '-' + t.name}</CardTitle>
+                            <CardTitle>{t.full_name}</CardTitle>
                             <Row>
                                 <Col md={2}><FontAwesomeIcon color={getColor(parseInt(t.priority_id))} icon={faCircle}/></Col>
                                 <Col md={2}><FontAwesomeIcon color={'black'}
@@ -125,24 +114,42 @@ const Dashboard = (props) => {
 
                     </Card>
                 )}
-                {/*{tasks.map((t, index) =>*/}
-                {/*        <Card key={index} style={{width: '18rem'}}>*/}
-                {/*            <Card.Body>*/}
-                {/*                <Card.Title>{getPrefix(t.id_PROJECT) + '-' + t.NAME}</Card.Title>*/}
-                {/*                <Row>*/}
-                {/*                    <Col><FontAwesomeIcon color={getColor(t.id_PRIORITY)} icon={faCircle}/></Col>*/}
-                {/*                    <Col><FontAwesomeIcon color={'black'} icon={getStatus(t.id_STATUS)}/></Col>*/}
-                {/*                </Row>*/}
-                {/*                <Card.Text>*/}
-                {/*                    {t.DESCRIPTION}*/}
-                {/*                </Card.Text>*/}
-                {/*            </Card.Body>*/}
-                {/*        </Card>*/}
-                {/*            )}*/}
+
             </CardDeck>
             }
-            {task && <Task closeTask={() => setTask(null)} task={task}/>}
-
+            {task && <Task closeTask={() => setTask(null)} task={task} openConfirm={toggleModal}/>}
+            {modal === 'TASK' &&
+            <NewTaskModal
+                onSave={(resource) => {
+                    console.log(resource)
+                    postData(resource, 'tasks' ,() => {
+                        reload();
+                        toggleModal(null)
+                    })
+                }}
+                toggle={toggleModal}
+                isOpen={modal === 'TASK'}
+            />}
+            {modal === 'PROJECT' &&
+            <NewProjectModal
+                onSave={(resource) => {
+                    postData(resource, 'projects' ,() => {
+                        console.log(resource)
+                        reload();
+                        toggleModal(null)
+                    })
+                }}
+                toggle={toggleModal}
+                isOpen={modal === 'PROJECT'}
+            />}
+            {modal === 'DELETE' && <ConfirmModal
+                action={modal}
+                reload={reload}
+                resourceName={'tasks'}
+                resource={task}
+                toggle={toggleModal}
+                isOpen={modal === 'DELETE'}
+            />}
         </div>
     )
 };

@@ -15,10 +15,12 @@ const AppWrapper = (props) => {
     const history = useHistory();
 
     useEffect(() => {
-        loginStatus(status => {
-            setLoginStatus(status)
+        loginStatus(() => {
             fetchAllData('users', (data) => {
                 setUsers(data)
+            })
+            fetchAllData('projects', (data) => {
+                setProjects(data)
             })
         })
     }, [])
@@ -87,7 +89,8 @@ const AppWrapper = (props) => {
             .then(response => {
                 if (response.data.logged_in) {
                     history.push("/");
-                    callback(response.data.logged_in)
+                    setLoginStatus(true)
+                    callback()
                 } else {
                     history.push("/login");
                     setLoginStatus(false)
@@ -106,7 +109,7 @@ const AppWrapper = (props) => {
             setWidth(90)
         }
     }
-
+    const [projects, setProjects] = useState(null)
     const [isLoggedIn, setLoginStatus] = useState(false)
     const [alert, setAlert] = useState(null)
     const [users, setUsers] = useState([])
@@ -122,11 +125,11 @@ const AppWrapper = (props) => {
                     {alert.text}
                 </Alert>
             </div>}
-            <CustomHorizontalNav onLogout={handleLogout}/>
+            <CustomHorizontalNav projects={projects} onLogout={handleLogout}/>
             {isLoggedIn ?
                 <div>
                     <CustomVerticalNav users={users} setActive={(id) => handleActiveUser(id)} setWidth={setWidthHandler}/>
-                    <Dashboard width={width} loggedIn={isLoggedIn}/>}
+                    <Dashboard project_id={history.location.pathname.slice(1)} width={width} loggedIn={isLoggedIn}/>
                     {activeUsers.map(user =>
                         <MessageBox box={user}/>)
                     }

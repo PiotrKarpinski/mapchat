@@ -1,17 +1,11 @@
 class TasksController < ApplicationController
+
   def index
-    @tasks = Task.all
-    if @tasks
-      render json: {
-        tasks: @tasks
-      }
-    else
-      render json: {
-        status: 500,
-        errors: ['no tasks found']
-      }
+    if params[:project_id]
+      @tasks = Task.where(project_id: params[:project_id])
     end
   end
+
   def show
     @task = task.find(params[:id])
     if @task

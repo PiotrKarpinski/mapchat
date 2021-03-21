@@ -8,12 +8,12 @@ Rails.application.routes.draw do
   # get '/users/:user_id', to: 'users#show'
   # get '/users',          to: 'users#index'
   #
-  resources :users, only: [:create, :show, :index]
-  resources :tasks, only: [:create, :show, :update, :index]
-  resources :projects, only: [:create, :show, :update, :index]
-  resources :priorities, only: [:create, :show, :update, :index]
-  resources :statuses, only: [:create, :show, :update, :index]
-  resources :messages, only: [:create, :show, :update, :index]
+  resources :users, only: [:create, :show, :index], format: "json"
+  resources :tasks, only: [:create, :show, :update, :index], format: "json"
+  resources :projects, only: [:create, :show, :update, :index], format: "json"
+  resources :priorities, only: [:create, :show, :update, :index], format: "json"
+  resources :statuses, only: [:create, :show, :update, :index], format: "json"
+  resources :messages, only: [:create, :show, :update, :index], format: "json"
 
 
 end

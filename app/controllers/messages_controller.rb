@@ -28,6 +28,8 @@ class MessagesController < ApplicationController
 
   def create
     @message = Message.new(message_params)
+    @message.poster_id = current_user.id
+    @message.sent = DateTime.now
     if @message.save
       render json: {
         status: :created,
@@ -43,6 +45,6 @@ class MessagesController < ApplicationController
   private
 
   def message_params
-    params.require(:data).permit(:content, :task_id, :getter_id, :poster_id, :read, :sent)
+    params.require(:data).permit(:content, :getter_id, :poster_id)
   end
 end

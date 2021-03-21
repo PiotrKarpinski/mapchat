@@ -10,6 +10,7 @@ import {Link, withRouter} from "react-router-dom";
 import RegisterModal from "./RegisterModal";
 import {faAward} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faFantasyFlightGames} from "@fortawesome/free-brands-svg-icons";
 
 
 const CustomHorizontalNav = (props) => {
@@ -18,12 +19,8 @@ const CustomHorizontalNav = (props) => {
     const toggle = () => {
         setOpen(!isOpen)
     };
-    const [isWorkEnvironmentDropdownOpen, setWorkEnvironmentDropdownOpen] = useState(false);
-    const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
-    const toggleWorkEnvironmentDropdown = () => {
-        setWorkEnvironmentDropdownOpen(!isWorkEnvironmentDropdownOpen)
-    };
+    const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
     const toggleProfileDropdown = () => {
         setProfileDropdownOpen(!isProfileDropdownOpen)
@@ -33,46 +30,44 @@ const CustomHorizontalNav = (props) => {
     return (
         <Navbar color="dark">
             <RegisterModal isOpen={isOpen} toggle={toggle}/>
-            <Col md={1}>
-                <Link className="text-black" to="/"><FontAwesomeIcon color="white" size={24} icon={faAward}/></Link>
-            </Col>
-            <Col md={2}>
-                {
-                    !props.location.pathname.includes('login') &&
-                    <ButtonDropdown className="d-table" isOpen={isWorkEnvironmentDropdownOpen} toggle={toggleWorkEnvironmentDropdown}>
-                        <DropdownToggle color="info" caret>
-                            Work environment
-                        </DropdownToggle>
-                        <DropdownMenu>
-                            <DropdownItem><Link className="text-black" to="/dashboard">Board</Link></DropdownItem>
-                            <DropdownItem disabled><Link className="text-black" to="/login">Tasks</Link></DropdownItem>
-                            <DropdownItem disabled><Link className="text-black" to="/login">Projects</Link></DropdownItem>
-                        </DropdownMenu>
-                    </ButtonDropdown>}
-            </Col>
-            <Col md={9}>
-                {
-                    !props.location.pathname.includes('login') &&
-                    <ButtonDropdown className="d-table ml-auto mr-0" isOpen={isProfileDropdownOpen} toggle={toggleProfileDropdown}>
-                    <DropdownToggle color="info" caret>
-                        Profile
-                    </DropdownToggle>
-                    <DropdownMenu>
-                        <DropdownItem disabled>Statistics</DropdownItem>
-                        <DropdownItem>My profile</DropdownItem>
-                        <DropdownItem divider />
-                        <DropdownItem><Button className="text-black" onClick={() => props.onLogout()}>Log out</Button></DropdownItem>
-                    </DropdownMenu>
-                </ButtonDropdown>}
-                {
-                    props.location.pathname.includes('login') &&
-                    <Button className="mx-1" color="info" onClick={toggle}>Sign in</Button>
-                }
-            </Col>
+            {
+                !props.location.pathname.includes('login') &&
+                <React.Fragment>
+                    <Col md={9}>
+                        {props.projects && props.projects.map(p =>
+                        <Link to={`/${p.id}`}>
+                            <div style={{color: p.color}} className="project-link-circle">
+                                {p.prefix}
+                            </div>
 
-        </Navbar>
+                        </Link>
+                        )}
 
-    )
+
+                    </Col>
+                    <Col md={3}>
+                        <ButtonDropdown className="d-table ml-auto mr-0" isOpen={isProfileDropdownOpen}
+                                        toggle={toggleProfileDropdown}>
+                            <DropdownToggle color="info" caret>
+                                Profile
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem disabled>Statistics</DropdownItem>
+                                <DropdownItem>My profile</DropdownItem>
+                                <DropdownItem divider/>
+                                <DropdownItem><Button className="text-black" onClick={() => props.onLogout()}>Log
+                                    out</Button></DropdownItem>
+                            </DropdownMenu>
+                        </ButtonDropdown>
+                    </Col>
+                </React.Fragment>}
+            {
+                props.location.pathname.includes('login') &&
+                <Button className="mx-1" color="info" onClick={toggle}>Sign in</Button>
+            }
+</Navbar>
+
+)
 };
 
 export default withRouter(CustomHorizontalNav)

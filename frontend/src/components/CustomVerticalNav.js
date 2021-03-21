@@ -18,7 +18,7 @@ import NewProjectModal from "./NewProjectModal";
 import {deleteData, fetchAllData, postData} from "./actions";
 import Loader from 'react-loader-spinner';
 import {faFacebookMessenger} from "@fortawesome/free-brands-svg-icons";
-import DeleteModal from "./DeleteModal";
+import DeleteModal from "./ConfirmModal";
 
 
 const CustomVerticalNav = (props) => {
@@ -32,13 +32,7 @@ const CustomVerticalNav = (props) => {
     useEffect(() => {
         reload()
     }, []);
-
-    const [modal, setModalOpen] = useState(null);
     const [tab, setDropdownOpen] = useState(null);
-
-    const toggleModal = (modal) => {
-        setModalOpen(modal ? modal : null)
-    };
 
     const toggleDropdown = (t) => {
         if (t !== tab)  {
@@ -66,21 +60,6 @@ const CustomVerticalNav = (props) => {
                     <NavItem>
                         <Button onClick={() => toggleDropdown('USERS')}><FontAwesomeIcon color="blue" icon={faFacebookMessenger}/></Button>
                     </NavItem>
-                    <NavItem>
-                        <Button onClick={() => toggleModal('TASK')}><FontAwesomeIcon color="green" icon={faPenFancy}/></Button>
-                    </NavItem>
-                    <NavItem>
-                        <Button onClick={() => toggleModal('PROJECT')}><FontAwesomeIcon color="lime" icon={faPen}/></Button>
-                    </NavItem>
-                    <NavItem>
-                        <Button onClick={() => toggleModal('DELETE')}><FontAwesomeIcon color="red" icon={faTrash}/></Button>
-                    </NavItem>
-                    <NavItem>
-                        <Button onClick={() => toggleDropdown('TABLES')}><FontAwesomeIcon color="white" icon={faAddressBook}/></Button>
-                    </NavItem>
-                    <NavItem>
-                        <Button onClick={() => toggleDropdown('CUSTOMIZE')}><FontAwesomeIcon color="pink" icon={faPaintRoller}/></Button>
-                    </NavItem>
                 </Nav>
                 <Collapse style={{left: 41 + 'px', position: "absolute"}} isOpen={isOpen} vertical={false}
                           elementMaxLength={'400px'}>
@@ -96,58 +75,9 @@ const CustomVerticalNav = (props) => {
                                         </NavItem>
                             )}
                         </NavItem>
-                        <NavItem>
-                            <Button onClick={() => toggleModal('TASK')}>New task</Button>
-                        </NavItem>
-                        <NavItem>
-                            <Button onClick={() => toggleModal('PROJECT')}>New project</Button>
-                        </NavItem>
-                        <NavItem>
-                            <Button onClick={() => toggleDropdown('TABLES')}>Tables</Button>
-                        </NavItem>
-                        <NavItem>
-                            <Button onClick={() => toggleModal('DELETE')}>Delete</Button>
-                        </NavItem>
-                        <NavItem>
-                            <Button onClick={() => toggleDropdown('CUSTOMIZE')}>Customize</Button>
-                        </NavItem>
                     </Nav>
                 </Collapse>
-                {modal === 'TASK' &&
-                <NewTaskModal
-                    onSave={(resource) => {
-                        console.log(resource)
-                        postData(resource, 'tasks' ,() => {
-                            reload();
-                            toggleModal(null)
-                        })
-                    }}
-                    toggle={toggleModal}
-                    isOpen={modal === 'TASK'}
-                />}
-                {modal === 'PROJECT' &&
-                <NewProjectModal
-                    onSave={(resource) => {
-                        postData(resource, 'projects' ,() => {
-                            console.log(resource)
-                            reload();
-                            toggleModal(null)
-                        })
-                    }}
-                    toggle={toggleModal}
-                    isOpen={modal === 'PROJECT'}
-                />}
-                <DeleteModal
-                    onSave={(resource) => {
-                        deleteData(resource, 'tasks' ,() => {
-                            console.log(resource)
-                            reload();
-                            toggleModal(null)
-                        })
-                    }}
-                    toggle={toggleModal}
-                    isOpen={modal === 'DELETE'}
-                />}
+
 
             </React.Fragment>
         )

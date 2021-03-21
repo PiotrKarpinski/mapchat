@@ -25,16 +25,15 @@ const MessageBox = (props) => {
 
     useEffect(() => {
         fetchAllData('messages', (data) => {
-            addMsg(data)
+            addMsg(...data)
         })
     },[props]);
 
     const handleSendMsg = (text) => {
     const msg = {
-        id: msgs.length + 1,
         content: text,
-        sent: Date.now(),
-        getter_id: active
+        getter_id: active,
+        read: false
     }
         postData(msg, 'messages', (sent) => {
             msg.sent(sent)

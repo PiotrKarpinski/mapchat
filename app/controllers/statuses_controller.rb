@@ -1,17 +1,8 @@
 class StatusesController < ApplicationController
   def index
     @statuses = Status.all
-    if @statuses
-      render json: {
-        statuses: @statuses
-      }
-    else
-      render json: {
-        status: 500,
-        errors: ['no statuses found']
-      }
-    end
   end
+
   def show
     @status = Status.find(params[:id])
     if @status

@@ -1,17 +1,8 @@
 class PrioritiesController < ApplicationController
   def index
     @priorities = Priority.all
-    if @priorities
-      render json: {
-        priorities: @priorities
-      }
-    else
-      render json: {
-        status: 500,
-        errors: ['no priorities found']
-      }
-    end
   end
+
   def show
     @priority = Priority.find(params[:id])
     if @priority

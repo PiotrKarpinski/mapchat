@@ -1,46 +1,35 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Container from "reactstrap/es/Container";
 import {useParams} from "react-router-dom";
-import {fetchAllData, fetchData, postData, updateData} from "./actions";
+import {fetchAllData, fetchData, fetchSelectData, postData, updateData} from "./actions";
 import FormGroup from "reactstrap/es/FormGroup";
 import Label from "reactstrap/es/Label";
 import Input from "reactstrap/es/Input";
 import FormText from "reactstrap/es/FormText";
-import {Resources} from "../common/Resources"
 import Loader from 'react-loader-spinner'
-import {faTimes} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {Col, Row} from "reactstrap";
 
 
-
-const Task = (props) => {
+const Task = React.forwardRef((props, ref)=> {
 
     let {id} = useParams()
 
 
     useEffect(() => {
-        if (props.task) {
-            getTask(props.task)
-        } else {
-            fetchData(id, 'tasks', (result) => {
-                getTask(result)
-            })
-        }
 
-        fetchAllData( 'projects', (result) => {
-            let data = options
-            options.projects = result
-            fetchAllData( 'priorities', (result) => {
-                data.priorities = result
-                fetchAllData( 'statuses', (result) => {
-                    data.statuses = result
-                    setOptions(data)
-                    setLoading(!result)
-                })
-            })
+        document.addEventListener('click', handleClickOutside, true);
+        getTask(props.task)
+        const selectsArray = ['priorities', 'statuses']
+        fetchSelectData(selectsArray, (result) => {
+            const data = options
+            data.priorities = result.priorities
+            data.statuses = result.statuses
+            setOptions(data)
+            setLoading(!result)
         })
-
-
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
     }, [id, props]);
 
     const handleSaveTask = (resource) => {
@@ -49,6 +38,12 @@ const Task = (props) => {
         })
     }
 
+    const handleClickOutside = (event) => {
+        if (ref.current && !ref.current.contains(event.target)) {
+            props.closeTask()
+        }
+    };
+
     const handleKeyDown = (e) => {
         console.log(e)
         if (e.key === 'Enter') {
@@ -56,11 +51,7 @@ const Task = (props) => {
         }
     }
 
-    const [options, setOptions] = useState({
-        priorities: [],
-        statuses: [],
-        projects: []
-    })
+
     const onResource = (valueName, value) => {
         let values = resource
         values[valueName] = value
@@ -72,22 +63,22 @@ const Task = (props) => {
     }
 
     const [isLoading, setLoading] = useState(true)
-    const {priorities, statuses, projects} = options
     const [editing, setEditing] = useState(null)
     const [resource, setResource] = useState({
         name: '',
         description: '',
         status_id: null,
         priority_id: null,
-        project_id: null
+    })
+    const [options, setOptions] = useState({
+        priorities: [],
+        statuses: []
     })
     const [task, getTask] = useState(null) //Hook - nie wiem co to jeszcze
 
 
     return (
-
-
-        <Container className="task-container">
+        <Container ref={ref} className="task-container">
             {isLoading ? <Loader
                     type="Puff"
                     color="#00BFFF"
@@ -98,9 +89,8 @@ const Task = (props) => {
                 />
                 :
                 <div>
-                    <FontAwesomeIcon icon={faTimes} onClick={props.closeTask}/>
-                        <FormGroup>
-                            <Label className="task-label" for="Name">Name</Label>
+                    <Row>
+                        <Col md={8}>
                             <Input
                                 onClick={() => setEditing('name')}
                                 onBlur={() => setEditing(null)}
@@ -108,22 +98,8 @@ const Task = (props) => {
                                 value={task.name} onKeyPress={(e) => handleKeyDown(e)} onChange={(e) => {
                                 onResource('name', e.target.value)
                             }} placeholder="Enter task name"/>
-                        </FormGroup>
-
-                    <FormGroup>
-                        <Label className="task-label" for="Project">Project</Label>
-                        <Input
-                            onClick={() => setEditing('project_id')}
-                            onBlur={() => setEditing(null)}
-                            className={editing === 'project_id' ? 'task-editing' : 'task-present'}
-                            onKeyPress={(e) => handleKeyDown(e)} onChange={(e) => {
-                            onResource('project_id', e.target.value)
-                        }} type="select">
-                            {projects.map(p =>
-                                <option selected={p.id === task.project_id} value={p.id}>{p.name}</option>
-                            )}
-                        </Input>
-                    </FormGroup>
+                        </Col>
+                    </Row>
                     <FormGroup>
                         <Label className="task-label" for="Priority">Priority</Label>
                         <Input
@@ -133,7 +109,7 @@ const Task = (props) => {
                             onKeyPress={(e) => handleKeyDown(e)} onChange={(e) => {
                             onResource('priority_id', e.target.value)
                         }} type="select">
-                            {priorities.map(p =>
+                            {options.priorities.map(p =>
                                 <option selected={p.id === task.priority_id} value={p.id}>{p.name}</option>
                             )}
                         </Input>
@@ -146,23 +122,23 @@ const Task = (props) => {
                             onBlur={() => setEditing(null)}
                             onKeyPress={(e) => handleKeyDown(e)} onChange={(e) => {
                             onResource('status_id', e.target.value)
-                        }} type="select" >
-                            {statuses.map(s =>
+                        }} type="select">
+                            {options.statuses.map(s =>
                                 <option selected={s.id === task.status_id} value={s.id}>{s.name}</option>
                             )}
                         </Input>
                     </FormGroup>
-                        <FormGroup>
-                            <Label className="task-label" for="Description">Know-How(description)</Label>
-                            <Input
-                                value={task.description}
-                                className={editing === 'description' ? 'task-editing' : 'task-present'}
-                                onClick={() => setEditing('description')}
-                                onBlur={() => setEditing(null)}
-                                onKeyPress={(e) => handleKeyDown(e)} onChange={(e) => {
-                                onResource('description', e.target.value)
-                            }} type="textarea" name="text"/>
-                        </FormGroup>
+                    <FormGroup>
+                        <Label className="task-label" for="Description">Know-How(description)</Label>
+                        <Input
+                            value={task.description}
+                            className={editing === 'description' ? 'task-editing' : 'task-present'}
+                            onClick={() => setEditing('description')}
+                            onBlur={() => setEditing(null)}
+                            onKeyPress={(e) => handleKeyDown(e)} onChange={(e) => {
+                            onResource('description', e.target.value)
+                        }} type="textarea" name="text"/>
+                    </FormGroup>
                     <FormGroup>
                         <Label className="task-label" for="attachment">Attachment</Label>
                         <Input onKeyPress={(e) => handleKeyDown(e)} type="file" name="file" id="exampleFile"/>
@@ -181,7 +157,7 @@ const Task = (props) => {
             }
         </Container>
     )
-}
+})
 
 
 export default Task;

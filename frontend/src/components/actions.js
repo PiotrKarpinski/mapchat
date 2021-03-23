@@ -41,6 +41,25 @@ export const fetchAllDataByProjectId = (resourceName, project_id, callback) => {
         .catch(error => console.log('api errors:', error))
 }
 
+export const fetchSelectData = (selectsArray, callback) => {
+    const result = {}
+    selectsArray.forEach((s, index, array) => {
+        axios.get(`http://localhost:3001/${s}`,
+            {withCredentials: true})
+            .then(response => {
+                if (response.data) {
+                    result[s] = response.data
+                } else {
+                    result[s] = []
+                }
+                if (index === array.length - 1) {
+                    callback(result)
+                }
+            })
+            .catch(error => console.log('api errors:', error))
+    })
+}
+
 
 export const postData = (data, resourceName, callback) => {
     axios.post(`http://localhost:3001/${resourceName}`, {data},

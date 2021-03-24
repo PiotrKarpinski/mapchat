@@ -16,14 +16,18 @@ const AppWrapper = (props) => {
 
     useEffect(() => {
         loginStatus(() => {
-            fetchAllData('users', (data) => {
-                setUsers(data)
-            })
-            fetchAllData('projects', (data) => {
-                setProjects(data)
-            })
+           reload()
         })
     }, [])
+
+    const reload = () => {
+        fetchAllData('users', (data) => {
+            setUsers(data)
+        })
+        fetchAllData('projects', (data) => {
+            setProjects(data)
+        })
+    }
 
     const handleLogin = (user) => {
         axios.post('http://localhost:3001/login', {user}, {withCredentials: true})
@@ -32,6 +36,7 @@ const AppWrapper = (props) => {
                     history.push("/");
                     handleAlert(response.data.status, 'success')
                     setLoginStatus(response.data.logged_in)
+                    reload()
                 } else {
                     handleAlert(response.data.errors[0], 'danger')
                     setLoginStatus(false)
@@ -100,21 +105,11 @@ const AppWrapper = (props) => {
     };
 
 
-    const setWidthHandler = (value) => {
-        if (value === 1) {
-            setWidth(80)
-        } else if (value === 2) {
-            setWidth(70)
-        } else {
-            setWidth(90)
-        }
-    }
     const [projects, setProjects] = useState(null)
     const [isLoggedIn, setLoginStatus] = useState(false)
     const [alert, setAlert] = useState(null)
     const [users, setUsers] = useState([])
     const [activeUsers, setActive] = useState([])
-    const [width, setWidth] = useState(90)
 
 
     return (
@@ -128,8 +123,8 @@ const AppWrapper = (props) => {
             <CustomHorizontalNav projects={projects} onLogout={handleLogout}/>
             {isLoggedIn ?
                 <div>
-                    <CustomVerticalNav users={users} setActive={(id) => handleActiveUser(id)} setWidth={setWidthHandler}/>
-                    <Dashboard project_id={history.location.pathname.slice(1)} width={width} loggedIn={isLoggedIn}/>
+                    <CustomVerticalNav users={users} setActive={(id) => handleActiveUser(id)}/>
+                    <Dashboard project_id={history.location.pathname.slice(1)} loggedIn={isLoggedIn}/>
                     {activeUsers.map(user =>
                         <MessageBox box={user}/>)
                     }

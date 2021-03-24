@@ -41,9 +41,10 @@
 }
 
 .task-container {
+  position: absolute;
   height: 100vh;
   display: inline-block;
-  width: 20%!important;
+  width: 30%!important;
   float: right;
   background-color: bisque;
 

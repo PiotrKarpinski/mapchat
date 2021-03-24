@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import Container from "reactstrap/es/Container";
 import {useParams} from "react-router-dom";
-import {fetchAllData, fetchData, fetchSelectData, postData, updateData} from "./actions";
+import {fetchAllData, fetchData, fetchSelectData, postData, updateData} from "../apiActions/DataApi";
 import FormGroup from "reactstrap/es/FormGroup";
 import Label from "reactstrap/es/Label";
 import Input from "reactstrap/es/Input";

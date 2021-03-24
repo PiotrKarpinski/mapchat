@@ -8,11 +8,10 @@ import Modal from "reactstrap/es/Modal";
 import ModalBody from "reactstrap/es/ModalBody";
 import ModalHeader from "reactstrap/es/ModalHeader";
 import ModalFooter from "reactstrap/es/ModalFooter";
-import {fetchAllData, postData} from "./actions";
+import {fetchAllData, postData} from "../apiActions/DataApi";
 import Form from "reactstrap/es/Form";
 import FormGroup from "reactstrap/es/FormGroup";
 import Label from "reactstrap/es/Label";
-import {Resources} from "../common/Resources"
 
 const NewTaskModal = (props) => {
 

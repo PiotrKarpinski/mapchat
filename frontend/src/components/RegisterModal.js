@@ -29,18 +29,11 @@ const RegisterModal = (props) => {
             <ModalBody className="mx-auto w-75 p-10">
                 <Row>
                     <InputGroup className="py-2">
-
                         <Input
                             onChange={(e) => setUsername(e.target.value)}
                             placeholder="Enter your email"/>
                     </InputGroup>
                 </Row>
-                {/*<Row>*/}
-                {/*    <InputGroup className="py-2">*/}
-
-                {/*        <Input placeholder="Enter your user name"/>*/}
-                {/*    </InputGroup>*/}
-                {/*</Row>*/}
                 <Row>
                     <InputGroup className="py-2">
 
@@ -53,7 +46,7 @@ const RegisterModal = (props) => {
                     <InputGroup className="py-2">
 
                         <Input
-                            onChange={(e) => setPasswordConfirmed(e.target.value)}
+                            onChange={(e) => setPasswordConfirmed(e.target.value === password)}
                             placeholder="One more time"/>
                     </InputGroup>
                 </Row>}

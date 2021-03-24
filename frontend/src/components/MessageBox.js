@@ -19,7 +19,7 @@ import Nav from "reactstrap/es/Nav";
 import Input from "reactstrap/es/Input";
 import FormText from "reactstrap/es/FormText";
 import {faFacebookMessenger} from "@fortawesome/free-brands-svg-icons";
-import {fetchAllData, postData} from "./actions";
+import {fetchAllData, postData} from "../apiActions/DataApi";
 
 const MessageBox = (props) => {
 

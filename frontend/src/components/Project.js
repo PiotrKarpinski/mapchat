@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Container from "reactstrap/es/Container";
 import Jumbotron from "reactstrap/es/Jumbotron";
 import {useParams} from "react-router-dom";
-import {fetchAllData, fetchData} from "./actions";
+import {fetchAllData, fetchData} from "../apiActions/DataApi";
 import Loader from "react-loader-spinner";
 import Row from "reactstrap/es/Row";
 import Col from "reactstrap/es/Col";

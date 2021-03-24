@@ -9,7 +9,7 @@ import ModalHeader from "reactstrap/es/ModalHeader";
 import ModalFooter from "reactstrap/es/ModalFooter";
 
 import {connect} from "react-redux";
-import {deleteData} from "./actions";
+import {deleteData} from "../apiActions/DataApi";
 
 const ConfirmModal = (props) => {
 

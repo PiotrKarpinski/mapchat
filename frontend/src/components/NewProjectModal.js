@@ -3,7 +3,6 @@ import Row from "reactstrap/es/Row";
 import Col from "reactstrap/es/Col";
 import Button from "reactstrap/es/Button";
 import Input from "reactstrap/es/Input";
-import FormText from "reactstrap/es/FormText";
 import Modal from "reactstrap/es/Modal";
 import ModalBody from "reactstrap/es/ModalBody";
 import ModalHeader from "reactstrap/es/ModalHeader";
@@ -11,7 +10,6 @@ import ModalFooter from "reactstrap/es/ModalFooter";
 import Form from "reactstrap/es/Form";
 import FormGroup from "reactstrap/es/FormGroup";
 import Label from "reactstrap/es/Label";
-import {Resources} from "../common/Resources"
 
 
 const NewProjectModal = (props) => {
@@ -60,17 +58,6 @@ const NewProjectModal = (props) => {
                             onChange={(e) => {
                             onResource('name', e.target.value)
                             }} type="text" name="text" placeholder="Enter project name"/>
-                    </FormGroup>
-
-                    <FormGroup>
-                        <Label for="Status">Current Status</Label>
-                        <Input onChange={(e) => {
-                            onResource('status_id', e.target.value)
-                        }} type="select" name="select" id="exampleSelect">
-                            {Resources.categories.map(s =>
-                                <option value={s.value}>{s.label}</option>
-                            )}
-                        </Input>
                     </FormGroup>
                     {resource.prefix &&
                     <FormGroup>

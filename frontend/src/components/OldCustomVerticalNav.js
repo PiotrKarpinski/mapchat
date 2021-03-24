@@ -8,7 +8,7 @@ import {faAddressBook, faAward, faBuilding, faCalendarAlt, faPaintRoller} from "
 import {Link, withRouter} from "react-router-dom";
 import NewTaskModal from "./NewTaskModal";
 import NewProjectModal from "./NewProjectModal";
-import {fetchAllData, postData} from "./actions";
+import {fetchAllData, postData} from "../apiActions/DataApi";
 import Loader from 'react-loader-spinner';
 
 

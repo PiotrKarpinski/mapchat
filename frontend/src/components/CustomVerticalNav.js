@@ -15,7 +15,7 @@ import {
 import {Link, withRouter} from "react-router-dom";
 import NewTaskModal from "./NewTaskModal";
 import NewProjectModal from "./NewProjectModal";
-import {deleteData, fetchAllData, postData} from "./actions";
+import {deleteData, fetchAllData, postData} from "../apiActions/DataApi";
 import Loader from 'react-loader-spinner';
 import {faFacebookMessenger} from "@fortawesome/free-brands-svg-icons";
 import DeleteModal from "./ConfirmModal";

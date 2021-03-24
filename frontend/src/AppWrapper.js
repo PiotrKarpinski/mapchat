@@ -1,21 +1,20 @@
 import './App.css';
-import React, {Component, useCallback, useEffect, useState} from "react";
-import axios from "axios";
+import React, {useEffect, useState} from "react";
 import Dashboard from "./components/Dashboard";
 import CustomHorizontalNav from "./components/CustomHorizontalNav";
 import CustomVerticalNav from "./components/CustomVerticalNav";
 import {useHistory} from "react-router";
 import LoginPage from "./components/LoginPage";
-import {Alert, UncontrolledAlert} from "reactstrap";
-import Assembly from "./components/MessageBox";
+import {Alert} from "reactstrap";
 import MessageBox from "./components/MessageBox";
-import {fetchAllData, fetchData, postData} from "./components/actions";
+import {fetchAllData, fetchData, postData} from "./apiActions/DataApi";
+import {loggedin, login, logout, signup} from "./apiActions/SessionApi";
 
 const AppWrapper = (props) => {
     const history = useHistory();
 
     useEffect(() => {
-        loginStatus(() => {
+        handleLoginStatus(() => {
            reload()
         })
     }, [])
@@ -29,57 +28,63 @@ const AppWrapper = (props) => {
         })
     }
 
-    const handleLogin = (user) => {
-        axios.post('http://localhost:3001/login', {user}, {withCredentials: true})
-            .then(response => {
-                if (response.data.logged_in) {
-                    history.push("/");
-                    handleAlert(response.data.status, 'success')
-                    setLoginStatus(response.data.logged_in)
-                    reload()
-                } else {
-                    handleAlert(response.data.errors[0], 'danger')
-                    setLoginStatus(false)
-                    history.push("/login");
-                }
-            })
-            .catch(error => console.log('api errors:', error))
-    };
-
-    const handleLogout = () => {
-        axios.post('http://localhost:3001/logout',null,{withCredentials: true})
-            .then(response => {
-                if (response) {
-                    handleAlert(response.data.status, 'success')
-                    setLoginStatus(false)
-                } else {
-                    handleAlert(response.data.errors[0], 'danger')
-                }
-            })
-            .catch(error => console.log('api errors:', error))
-    };
 
     const handleAlert = (text, color) => {
         setAlert({text: `I felt trying to log you in. ${text}`, color})
         setTimeout(() => setAlert(null), 4500)
     }
 
-    const handleSignup = (user) => {
+    const handleLogout = () => {
+        logout((response) => {
+            if (response) {
+                handleAlert(response.data.status, 'success')
+                setLoginStatus(false)
+            } else {
+                handleAlert(response.data.errors[0], 'danger')
+            }
+        })
+    }
+    const handleLogin = (user) => {
+        login(user, (response) => {
+            if (response.data.logged_in) {
+                history.push("/");
+                handleAlert(response.data.status, 'success')
+                setLoginStatus(response.data.logged_in)
+                reload()
+            } else {
+                handleAlert(response.data.errors[0], 'danger')
+                setLoginStatus(false)
+                history.push("/login");
+            }
+        })
 
-        axios.post('http://localhost:3001/users', {user}, {withCredentials: true})
-            .then(response => {
-                if (response.data.status === 'created') {
-                    handleAlert(response.data.status, 'success')
-                    setLoginStatus(response.data.logged_in)
-                    history.push("/");
-                } else {
-                    history.push("/login");
-                    handleAlert(response.data.errors[0], 'info')
-                    setLoginStatus(false)
-                }
-            })
-            .catch(error => console.log('api errors:', error))
-    };
+    }
+    const handleSignup = (user) => {
+        signup(user, (response) => {
+            if (response.data.status === 'created') {
+                handleAlert(response.data.status, 'success')
+                setLoginStatus(response.data.logged_in)
+                history.push("/");
+            } else {
+                history.push("/login");
+                handleAlert(response.data.errors[0], 'info')
+                setLoginStatus(false)
+            }
+        })
+    }
+
+    const handleLoginStatus = (callback) => {
+        loggedin((response) => {
+            if (response.data.logged_in) {
+                history.push("/");
+                setLoginStatus(true)
+                callback()
+            } else {
+                history.push("/login");
+                setLoginStatus(false)
+            }
+        })
+    }
 
     const handleActiveUser = (id) => {
         fetchData(id, 'users', (user) => {
@@ -87,22 +92,6 @@ const AppWrapper = (props) => {
             setActive([...activeUsers])
         })
     }
-
-    const loginStatus = (callback) => {
-        axios.get('http://localhost:3001/logged_in',
-            {withCredentials: true})
-            .then(response => {
-                if (response.data.logged_in) {
-                    history.push("/");
-                    setLoginStatus(true)
-                    callback()
-                } else {
-                    history.push("/login");
-                    setLoginStatus(false)
-                }
-            })
-            .catch(error => console.log('api errors:', error))
-    };
 
 
     const [projects, setProjects] = useState(null)

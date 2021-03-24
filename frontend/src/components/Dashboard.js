@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {deleteData, fetchAllData, fetchAllDataByProjectId, postData} from "./actions";
+import {deleteData, fetchAllData, fetchAllDataByProjectId, postData} from "../apiActions/DataApi";
 import Card from "reactstrap/es/Card";
 import Col from "reactstrap/es/Col";
 import {faCalculator, faCalendar, faCircle, faDotCircle, faEnvelope} from "@fortawesome/free-solid-svg-icons";

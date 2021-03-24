@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   # get '/users',          to: 'users#index'
   #
   resources :users, only: [:create, :show, :index], format: "json"
-  resources :tasks, only: [:create, :show, :update, :index], format: "json"
+  resources :tasks, only: [:create, :show, :update, :index, :destroy], format: "json"
   resources :projects, only: [:create, :show, :update, :index], format: "json"
   resources :priorities, only: [:create, :show, :update, :index], format: "json"
   resources :statuses, only: [:create, :show, :update, :index], format: "json"

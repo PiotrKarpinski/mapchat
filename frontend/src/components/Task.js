@@ -107,7 +107,7 @@ const Task = (props) => {
                 </Input>
             </FormGroup>
             <FormGroup>
-                <Label className="task-label" for="Description">Know-How(description)</Label>
+                <Label className="task-label" for="Description">Description</Label>
                 <Input
                     value={task.description}
                     className={editing === 'description' ? 'task-editing' : 'task-present'}
@@ -117,21 +117,12 @@ const Task = (props) => {
                     onResource('description', e.target.value)
                 }} type="textarea" name="text"/>
             </FormGroup>
-            <FormGroup>
-                <Label className="task-label" for="attachment">Attachment</Label>
-                <Input onKeyPress={(e) => handleKeyDown(e)} type="file" name="file" id="exampleFile"/>
-                <FormText color="muted">
-                    You can upload images and videos here
-                </FormText>
-            </FormGroup>
-
-            <FormGroup check>
-                <Label className="task-label" check>
-                    <Input type="checkbox"/>{' '}
-                    CODE RED PRIORITY
-                </Label>
-            </FormGroup>
-
+                <Button
+                color="warning"
+                onClick={() => props.openConfirm('DELETE')}
+                >
+                    Delete
+                </Button>
             </Col>
             </Row>
         </Container>

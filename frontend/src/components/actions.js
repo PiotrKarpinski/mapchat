@@ -88,8 +88,7 @@ export const updateData = (data, resourceName, callback) => {
 }
 
 export const deleteData = (resource, resourceName, callback) => {
-    for (let item of resource) {
-        axios.delete(`http://localhost:3001/${resourceName}/${item}`,
+        axios.delete(`http://localhost:3001/${resourceName}/${resource}`,
             {withCredentials: true})
             .then(response => {
                 if (response.data) {
@@ -99,6 +98,4 @@ export const deleteData = (resource, resourceName, callback) => {
                 }
             })
             .catch(error => console.log('api errors:', error))
-    }
-
 }

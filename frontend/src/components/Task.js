@@ -23,7 +23,17 @@ const Task = (props) => {
             data.priorities = result.priorities
             data.statuses = result.statuses
             setOptions(data)
+            if (props.task.id) {
+
+            } else {
+                onResource('project_id', props.projectId)
+                selectsArray.forEach(s => {
+                    onResource(s, data[s][0].id)
+                })
+            }
         })
+
+
     }, [id, props]);
 
     const handleSaveTask = (resource) => {
@@ -65,7 +75,7 @@ const Task = (props) => {
             <Row className="h-100">
                 <Col className="p-0" md={1}>
                     <Button className="w-100 h-100" onClick={props.closeTask}>
-
+>
                     </Button>
                 </Col>
             <Col md={11}>
@@ -117,11 +127,17 @@ const Task = (props) => {
                     onResource('description', e.target.value)
                 }} type="textarea" name="text"/>
             </FormGroup>
-                <Button
+                {task.id && <Button
                 color="warning"
                 onClick={() => props.openConfirm('DELETE')}
                 >
                     Delete
+                </Button>}
+                <Button
+                    color="success"
+                    onClick={() => props.onSave(resource)}
+                >
+                    Save
                 </Button>
             </Col>
             </Row>

@@ -16,6 +16,7 @@ import NewProjectModal from "./NewProjectModal";
 import ConfirmModal from "./ConfirmModal";
 import Loader from "react-loader-spinner";
 import Container from "reactstrap/es/Container";
+import {Button, ButtonGroup} from "reactstrap";
 
 
 const Dashboard = (props) => {
@@ -102,6 +103,21 @@ const Dashboard = (props) => {
                     width: task ? 70 + '%' : '90%',
                     marginLeft: 90 - width + '%'
                 }}>
+                    {props.project_id &&
+                    <ButtonGroup>
+                        <Button
+                        onClick={() => {
+                            toggleModal('PROJECT')
+                        }}>
+                            New Project
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                setTask({})
+                            }}>
+                            New Task
+                        </Button>
+                    </ButtonGroup>}
 
                     {tasks.map((t, index) =>
 
@@ -130,7 +146,19 @@ const Dashboard = (props) => {
 
                 </CardDeck>
             }
-            {task && <Task closeTask={() => setTask(null)} task={task} openConfirm={toggleModal}/>}
+            {task && <Task
+                onSave={(resource) => {
+                    resource.priority_id = resource.priorities
+                    resource.status_id = resource.statuses
+                    postData(resource, 'tasks', () => {
+                        reload();
+                        toggleModal(null)
+                    })
+                }}
+                projectId={props.project_id}
+                closeTask={() => setTask(null)}
+                task={task}
+                openConfirm={toggleModal}/>}
             {modal === 'TASK' &&
             <NewTaskModal
                 onSave={(resource) => {
